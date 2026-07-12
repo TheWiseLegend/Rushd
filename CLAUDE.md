@@ -36,8 +36,8 @@ One step at a time. Confirm the done-condition before starting the next.
 | 1 | Data layer | ✅ Done | Can write/read a profile record |
 | 2 | Assessment engine | ✅ Done | CLI produces a real 14-rating profile |
 | 3 | Web app (auth + chat UI) | ✅ Done | Full browser flow verified end-to-end; prompt caching live |
-| 4 | Save + view own results | 🔄 **NEXT** | User hits their invite link on a new browser/device and sees their completed profile instead of starting over |
-| 5 | Deploy + back up | 🔲 Pending | Survives reboot; DB has a restore path |
+| 4 | Save + view own results | ✅ Done | User hits their invite link on a new browser/device and sees their completed profile instead of starting over |
+| 5 | Deploy + back up | 🔄 **NEXT** | Survives reboot; DB has a restore path |
 
 **Comparison view (two profiles side-by-side): explicitly deferred. Do not
 scope, design, or ask about it. Amr will open that phase when ready.**
