@@ -63,7 +63,7 @@ def load_conversation_session(session_id: str, person_label: str) -> dict | None
     try:
         row = conn.execute(
             """
-            SELECT session_id, person_label, profile_language, messages_json, status
+            SELECT session_id, person_label, profile_language, messages_json, status, profile_id
             FROM conversation_sessions
             WHERE session_id = ? AND person_label = ?
             """,
@@ -77,22 +77,55 @@ def load_conversation_session(session_id: str, person_label: str) -> dict | None
             "profile_language": row["profile_language"],
             "messages": json.loads(row["messages_json"]),
             "status": row["status"],
+            "profile_id": row["profile_id"],
         }
     finally:
         conn.close()
 
 
-def update_conversation_session(session_id: str, person_label: str, messages: list, status: str) -> None:
+def update_conversation_session(
+    session_id: str, person_label: str, messages: list, status: str, profile_id: int | None = None
+) -> None:
     conn = get_conn()
     try:
         conn.execute(
             """
             UPDATE conversation_sessions
-            SET messages_json = ?, status = ?, updated_at = datetime('now')
+            SET messages_json = ?, status = ?, profile_id = COALESCE(?, profile_id), updated_at = datetime('now')
             WHERE session_id = ? AND person_label = ?
             """,
-            (json.dumps(messages), status, session_id, person_label),
+            (json.dumps(messages), status, profile_id, session_id, person_label),
         )
         conn.commit()
+    finally:
+        conn.close()
+
+
+def get_profile_with_ratings(profile_id: int, person_label: str) -> dict | None:
+    """Scoped by person_label too, for the same reason conversation_sessions is -
+    a profile_id from a session cookie should never let one person read another's profile."""
+    conn = get_conn()
+    try:
+        profile_row = conn.execute(
+            """
+            SELECT id, person_label, self_awareness_summary, strengths, weaknesses, what_to_look_for
+            FROM profiles
+            WHERE id = ? AND person_label = ?
+            """,
+            (profile_id, person_label),
+        ).fetchone()
+        if profile_row is None:
+            return None
+        rating_rows = conn.execute(
+            "SELECT dimension_key, dimension_label, rating FROM profile_ratings WHERE profile_id = ?",
+            (profile_id,),
+        ).fetchall()
+        return {
+            "self_awareness_summary": profile_row["self_awareness_summary"],
+            "strengths": profile_row["strengths"],
+            "weaknesses": profile_row["weaknesses"],
+            "what_to_look_for": profile_row["what_to_look_for"],
+            "ratings": [dict(r) for r in rating_rows],
+        }
     finally:
         conn.close()

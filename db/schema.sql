@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS conversation_sessions (
     profile_language TEXT NOT NULL CHECK (profile_language IN ('ar', 'en')),
     messages_json    TEXT NOT NULL,
     status           TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'done')),
+    profile_id       INTEGER REFERENCES profiles(id),  -- set once status='done', so the result page can be re-rendered on refresh
     created_at       TEXT NOT NULL DEFAULT (datetime('now')),
     updated_at       TEXT NOT NULL DEFAULT (datetime('now'))
 );

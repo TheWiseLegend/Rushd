@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Begin{% endblock %}
+{% block body %}
+<h1>Welcome, {{ person_label }}</h1>
+<p>Choose the language your final written profile should be produced in. The conversation itself can be in whichever language you write in, turn by turn.</p>
+<form method="post" action="{{ url_for('start') }}">
+  <label><input type="radio" name="profile_language" value="en" checked> English</label><br>
+  <label><input type="radio" name="profile_language" value="ar"> العربية</label><br><br>
+  <button type="submit">Begin</button>
+</form>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Conversation{% endblock %}
+{% block body %}
+<h1>Rushd — Module 1</h1>
+{% for m in messages %}
+  <div class="msg {{ 'assistant' if m.role == 'assistant' else 'user' }}" dir="auto">{{ m.content }}</div>
+{% endfor %}
+
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+
+<form class="chat-form" method="post" action="{{ url_for('message') }}">
+  <textarea name="text" rows="2" required autofocus></textarea>
+  <button type="submit">Send</button>
+</form>
+
+<form class="done-form" method="post" action="{{ url_for('done') }}">
+  <button type="submit">I'm done — show my profile</button>
+</form>
+{% endblock %}

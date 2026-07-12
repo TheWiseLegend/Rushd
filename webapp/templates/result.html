@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Your profile{% endblock %}
+{% block body %}
+<h1>Your profile</h1>
+
+<h2>Self-awareness summary</h2>
+<p dir="auto">{{ profile.self_awareness_summary }}</p>
+
+<h2>Strengths</h2>
+<p dir="auto">{{ profile.strengths }}</p>
+
+<h2>Weaknesses</h2>
+<p dir="auto">{{ profile.weaknesses }}</p>
+
+<h2>What to look for in a partner</h2>
+<p dir="auto">{{ profile.what_to_look_for }}</p>
+
+<h2>Ratings</h2>
+{% for r in profile.ratings %}
+<div class="rating"><span dir="auto">{{ r.dimension_label }}</span><strong>{{ r.rating }}</strong></div>
+{% endfor %}
+{% endblock %}
