@@ -40,7 +40,7 @@ def send_turn(client, system_prompt: str, messages: list, user_text: str | None 
     response = client.messages.create(
         model=MODEL,
         max_tokens=1024,
-        system=system_prompt,
+        system=[{"type": "text", "text": system_prompt, "cache_control": {"type": "ephemeral"}}],
         messages=messages,
     )
     assistant_text = extract_text(response)
@@ -56,7 +56,7 @@ def run_extraction(client, messages: list, profile_language: str, person_label: 
     response = client.messages.create(
         model=MODEL,
         max_tokens=3000,
-        system=extraction_system,
+        system=[{"type": "text", "text": extraction_system, "cache_control": {"type": "ephemeral"}}],
         messages=convo,
         tools=[SAVE_PROFILE_TOOL],
         tool_choice={"type": "tool", "name": "save_profile"},
