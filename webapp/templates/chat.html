@@ -14,10 +14,12 @@
 <form class="chat-form" method="post" action="{{ url_for('message') }}">
   <textarea name="text" rows="2" required autofocus></textarea>
   <button type="submit">Send</button>
+  <span class="loading-text" hidden>…</span>
 </form>
 
 <form class="done-form" method="post" action="{{ url_for('done') }}">
   <button type="submit">I'm done — show my profile</button>
+  <span class="loading-text" hidden>…</span>
 </form>
 {% endif %}
 {% endblock %}

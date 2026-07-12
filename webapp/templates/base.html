@@ -11,15 +11,29 @@
   .msg { margin: 0.75rem 0; padding: 0.6rem 0.9rem; border-radius: 0.5rem; white-space: pre-wrap; }
   .msg.assistant { background: #f1f1f1; }
   .msg.user { background: #dbeafe; margin-left: 2rem; }
-  form.chat-form { display: flex; gap: 0.5rem; margin-top: 1rem; }
+  form.chat-form { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
   form.chat-form textarea { flex: 1; padding: 0.5rem; font: inherit; }
   button { padding: 0.5rem 1rem; font: inherit; cursor: pointer; }
+  button:disabled { cursor: wait; opacity: 0.7; }
   .done-form { margin-top: 0.5rem; }
   .rating { display: flex; justify-content: space-between; padding: 0.25rem 0; border-bottom: 1px solid #eee; }
   .error { color: #b00020; }
+  .loading-text { color: #666; margin-left: 0.5rem; }
+  form.chat-form .loading-text { flex-basis: 100%; margin-left: 0; }
 </style>
 </head>
 <body>
 {% block body %}{% endblock %}
+<script>
+  document.querySelectorAll('form').forEach(function (form) {
+    var indicator = form.querySelector('.loading-text');
+    if (!indicator) return;
+    form.addEventListener('submit', function () {
+      var btn = form.querySelector('button[type="submit"]');
+      if (btn) btn.disabled = true;
+      indicator.hidden = false;
+    });
+  });
+</script>
 </body>
 </html>
