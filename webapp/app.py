@@ -29,6 +29,33 @@ app.secret_key = os.environ["FLASK_SECRET_KEY"]
 
 _client = None
 
+THEMES = [
+    ("Emotional patterns", "أنماط عاطفية",
+     ["feel", "feeling", "emotion", "love", "attraction", "يشعر", "مشاعر", "حب", "انجذاب", "يحب"]),
+    ("Emotional neediness", "الاحتياج العاطفي",
+     ["need", "lonely", "alone", "empty", "fear", "خوف", "وحيد", "فراغ", "احتياج", "يحتاج"]),
+    ("Self-regulation", "ضبط النفس",
+     ["anger", "stress", "pressure", "control", "react", "غضب", "ضغط", "تحكم", "انفعال", "يتحكم"]),
+    ("Family & upbringing", "الأسرة والتنشئة",
+     ["family", "parents", "mother", "father", "siblings", "أهل", "أسرة", "أم", "أب", "والدين", "إخوة"]),
+    ("Past relationships", "تجارب سابقة",
+     ["past", "before", "previous", "relationship", "علاقة", "سابق", "قبل", "كانت", "تجربة"]),
+    ("Professional & financial readiness", "الجاهزية المهنية",
+     ["work", "job", "career", "money", "income", "شغل", "عمل", "مال", "دخل", "مستقبل", "وظيفة"]),
+]
+
+
+def detect_themes(messages: list, language: str) -> list:
+    """Scans message content for keyword signals and returns the touched
+    theme display-names, in conversation order, in the requested language.
+    """
+    text = " ".join(m.get("content", "") for m in messages).lower()
+    touched = []
+    for en_name, ar_name, keywords in THEMES:
+        if any(kw.lower() in text for kw in keywords):
+            touched.append(ar_name if language == "ar" else en_name)
+    return touched
+
 
 def get_client():
     global _client
@@ -126,7 +153,9 @@ def chat():
         return render_template("result.html", profile=profile, messages=messages)
 
     visible_messages = [m for m in convo["messages"] if m["content"] != engine.SESSION_START_TOKEN]
-    return render_template("chat.html", messages=visible_messages)
+    themes = detect_themes(visible_messages, convo["profile_language"])
+    return render_template("chat.html", messages=visible_messages, themes=themes,
+                            profile_language=convo["profile_language"])
 
 
 @app.route("/message", methods=["POST"])

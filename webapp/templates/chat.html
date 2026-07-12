@@ -1,10 +1,21 @@
 {% extends "base.html" %}
 {% block title %}Conversation{% endblock %}
+{% block head %}
+<style>
+  .themes-indicator { color: #888; font-size: 0.85rem; margin: 0.5rem 0 1rem; }
+</style>
+{% endblock %}
 {% block body %}
 <h1>Rushd — Module 1</h1>
 {% if profile is defined and profile is none %}
 <p>Your profile is being generated, please refresh in a moment.</p>
 {% else %}
+{% if themes %}
+<p class="themes-indicator" dir="auto">
+  {{ 'استُكشف حتى الآن:' if profile_language == 'ar' else 'Explored so far:' }}
+  {{ themes | join(' · ') }}
+</p>
+{% endif %}
 {% for m in messages %}
   <div class="msg {{ 'assistant' if m.role == 'assistant' else 'user' }}" dir="auto">{{ m.content }}</div>
 {% endfor %}
