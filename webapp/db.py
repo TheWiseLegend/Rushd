@@ -40,17 +40,19 @@ def validate_invite_token(token: str) -> str | None:
         conn.close()
 
 
-def create_conversation_session(person_label: str, profile_language: str, messages: list) -> str:
+def create_conversation_session(
+    person_label: str, profile_language: str, messages: list, age: int | None = None, gender: str | None = None
+) -> str:
     session_id = uuid.uuid4().hex
     conn = get_conn()
     try:
         conn.execute(
             """
             INSERT INTO conversation_sessions
-                (session_id, person_label, profile_language, messages_json, status)
-            VALUES (?, ?, ?, ?, 'active')
+                (session_id, person_label, profile_language, age, gender, messages_json, status)
+            VALUES (?, ?, ?, ?, ?, ?, 'active')
             """,
-            (session_id, person_label, profile_language, json.dumps(messages)),
+            (session_id, person_label, profile_language, age, gender, json.dumps(messages)),
         )
         conn.commit()
         return session_id
@@ -63,7 +65,7 @@ def load_conversation_session(session_id: str, person_label: str) -> dict | None
     try:
         row = conn.execute(
             """
-            SELECT session_id, person_label, profile_language, messages_json, status, profile_id
+            SELECT session_id, person_label, profile_language, age, gender, messages_json, status, profile_id
             FROM conversation_sessions
             WHERE session_id = ? AND person_label = ?
             """,
@@ -75,6 +77,8 @@ def load_conversation_session(session_id: str, person_label: str) -> dict | None
             "session_id": row["session_id"],
             "person_label": row["person_label"],
             "profile_language": row["profile_language"],
+            "age": row["age"],
+            "gender": row["gender"],
             "messages": json.loads(row["messages_json"]),
             "status": row["status"],
             "profile_id": row["profile_id"],

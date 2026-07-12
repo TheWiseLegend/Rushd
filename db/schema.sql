@@ -31,6 +31,8 @@ CREATE TABLE IF NOT EXISTS conversation_sessions (
     person_label     TEXT NOT NULL,   -- must equal invite_tokens.person_label for the authenticated session;
                                        -- every query filters on session_id AND person_label together, never session_id alone
     profile_language TEXT NOT NULL CHECK (profile_language IN ('ar', 'en')),
+    age              INTEGER,         -- nullable: sessions created before this field existed have no value
+    gender           TEXT CHECK (gender IN ('male', 'female')),  -- nullable, same reason as age
     messages_json    TEXT NOT NULL,
     status           TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'done')),
     profile_id       INTEGER REFERENCES profiles(id),  -- set once status='done', so the result page can be re-rendered on refresh

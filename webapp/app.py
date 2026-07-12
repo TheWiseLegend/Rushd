@@ -91,10 +91,22 @@ def start():
     if profile_language not in ("ar", "en"):
         return render_template("start.html", person_label=person_label, error="Please choose a language."), 400
 
-    system_prompt = build_conversation_system_prompt(profile_language)
+    gender = request.form.get("gender")
+    if gender not in ("male", "female"):
+        return render_template("start.html", person_label=person_label, error="Please choose a gender."), 400
+
+    age_raw = request.form.get("age")
+    try:
+        age = int(age_raw)
+        if age <= 0:
+            raise ValueError
+    except (TypeError, ValueError):
+        return render_template("start.html", person_label=person_label, error="Please enter a valid age."), 400
+
+    system_prompt = build_conversation_system_prompt(profile_language, age, gender)
     _, messages = engine.send_turn(get_client(), system_prompt, engine.initial_messages())
 
-    session_id = db.create_conversation_session(person_label, profile_language, messages)
+    session_id = db.create_conversation_session(person_label, profile_language, messages, age, gender)
     session["conversation_session_id"] = session_id
 
     return redirect(url_for("chat"))
@@ -127,7 +139,7 @@ def message():
         visible_messages = [m for m in convo["messages"] if m["content"] != engine.SESSION_START_TOKEN]
         return render_template("chat.html", messages=visible_messages, error="Please type something first."), 400
 
-    system_prompt = build_conversation_system_prompt(convo["profile_language"])
+    system_prompt = build_conversation_system_prompt(convo["profile_language"], convo["age"], convo["gender"])
     _, messages = engine.send_turn(get_client(), system_prompt, convo["messages"], text)
     db.update_conversation_session(convo["session_id"], convo["person_label"], messages, status="active")
 

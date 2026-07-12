@@ -6,6 +6,13 @@
 <form method="post" action="{{ url_for('start') }}">
   <label><input type="radio" name="profile_language" value="en" checked> English</label><br>
   <label><input type="radio" name="profile_language" value="ar"> العربية</label><br><br>
+
+  <label for="age">Age</label><br>
+  <input type="number" id="age" name="age" min="1" required><br><br>
+
+  <label><input type="radio" name="gender" value="male" required> ذكر</label><br>
+  <label><input type="radio" name="gender" value="female" required> أنثى</label><br><br>
+
   <button type="submit">Begin</button>
 </form>
 {% endblock %}

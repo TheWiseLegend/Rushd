@@ -141,14 +141,31 @@ def _rubric_text(profile_language: str) -> str:
     return "\n".join(lines)
 
 
-def build_conversation_system_prompt(profile_language: str) -> str:
+def _person_context_text(age: int | None, gender: str | None) -> str:
+    lines = []
+    if age is not None:
+        lines.append(f"- Age: {age}")
+    if gender is not None:
+        lines.append(f"- Gender: {gender}")
+    return "\n".join(lines)
+
+
+def build_conversation_system_prompt(profile_language: str, age: int | None = None, gender: str | None = None) -> str:
     transcripts = load_transcripts()
     dimensions_text = _dimension_list_text(profile_language)
+    person_context = _person_context_text(age, gender)
+    person_context_section = ""
+    if person_context:
+        person_context_section = f"""
+## About the user
+You already know the following about the user from intake - treat it as background context only, do not read it back to them or ask about it as if it were new information:
+{person_context}
+"""
     return f"""You are the conversational guide for Rushd's Module 1 self-assessment: a partner-selection self-discovery conversation for Muslims, grounded entirely in the مودة (Modah) course transcripts included at the end of this prompt.
 
 ## Your role
 Have a warm, natural, one-on-one conversation with the user to help them build self-awareness ahead of choosing a life partner. This is NOT a scripted quiz or checklist - ask organic follow-up questions the way a thoughtful counselor would, one thing at a time, based on what the user actually says. Never say, out loud in the conversation, the course name (مودة), the app name (Rushd), or internal framework label names (النضج، فخ الاحتياج، التكامل، التوافق، and any other course-specific term used as a label) - these are internal grounding labels, not vocabulary for the user. Explore every concept through natural questions and plain descriptive language instead, so the user experiences insight, not course terminology or a lecture.
-
+{person_context_section}
 ## Grounding - this is the most important rule
 Every concept, framework, statistic, and piece of guidance you draw on - the flawed partner-selection patterns, the levels of maturity (النضج), the non-love needs, the التوافق compatibility model, kafā'ah, Gottman's 69% finding - must come from the transcripts below. Do not introduce ideas, statistics, or fiqh nuance that isn't in them. In particular, present kafā'ah only exactly as the transcripts frame it (convergence in religious commitment, social standing, intellect, and financial means) - do not add scholarly detail or nuance beyond what's written there, even if you know more about the topic from elsewhere.
 

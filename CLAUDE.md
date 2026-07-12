@@ -11,7 +11,7 @@ Target users: Amr + ~5 close friends. Not a public product.
 
 ## Stack (fixed — do not relitigate)
 
-- **Claude API** (`claude-sonnet-5`) — assessment conversation + extraction
+- **Claude API** — model strings set in `assessment/engine.py` (verify against current Anthropic docs before changing, especially at Step 7) — assessment conversation + extraction
 - **SQLite** — profiles and session state (`data/rushd.db`)
 - **Flask** — web UI (`webapp/app.py`)
 - **Invite-link auth** — no user accounts, known users only
@@ -64,9 +64,7 @@ ngrok http 5000          # run alongside docker compose up -d, not instead of it
 One-time setup (already done on this machine):
 `ngrok config add-authtoken <token>`.
 
-## Build Status — Phase 3
-
-One step at a time. Confirm the done-condition before starting the next.
+## Build Status — Phase 3 (complete)
 
 | # | Step | Status | Done-condition |
 |---|------|--------|----------------|
@@ -79,13 +77,34 @@ One step at a time. Confirm the done-condition before starting the next.
 **Comparison view (two profiles side-by-side): explicitly deferred. Do not
 scope, design, or ask about it. Amr will open that phase when ready.**
 
+## Build Status — Phase 3.5 (v2.0 Refinements) — ACTIVE
+
+One step at a time. Confirm the done-condition before starting the next.
+Steps below IN PROGRESS or later are not yet implemented — do not implement
+a step ahead of its turn.
+
+| # | Step | Status | Done-condition |
+|---|------|--------|----------------|
+| 1 | System prompt quality (no terminology leakage, interpretation over summary) | ✅ Done | Committed |
+| 2 | Personal info intake (age/gender on `/start`) | 🔄 In progress | Age/gender captured, stored, and reach the model from message 1 |
+| 3 | Loading state (disable Submit on click, inline "...") | ⬜ Not started | Pure HTML/CSS/minimal JS, no framework |
+| 4 | Rating justifications (`justification` field on `profile_ratings` + tool schema + result.html + rebuilt rubric) | ⬜ Not started | — |
+| 5 | Result page redesign (grouped ratings, dimension descriptions, conversation-history toggle) | ⬜ Not started | — |
+| 6 | Theme coverage indicator (explored themes shown in chat UI, not a percentage bar) | ⬜ Not started | — |
+| 7 | Cost optimization (`send_turn` → claude-haiku, `run_extraction` stays on Sonnet, verify caching still active) | ⬜ Not started | — |
+
 ## Hard Rules
 
 - One step at a time — confirm done-condition before moving on
+- Never implement a step that isn't marked IN PROGRESS
 - Commit every working chunk with a clear message before moving on
-- No migrations framework — apply schema changes to dev DB directly
+- No migrations framework — schema changes: `ALTER TABLE` directly on
+  `data/rushd.db`, update `db/schema.sql` to match, nullable columns only
+  (protects existing rows)
 - No managed/cloud DB, no serverless, no external auth services
 - Verify Claude API/SDK specifics from current docs before stating as fact
+  (especially model strings — check current Anthropic model names before
+  using any in code, particularly for Step 7)
 - Never state a step is done without an end-to-end verification
 
 ## Deferred Issues (address at the step noted)
