@@ -4,10 +4,12 @@ at runtime and appended to the prompt so the model's grounding is the actual
 source text, not a paraphrase of it.
 """
 
+import json
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 TRANSCRIPTS_DIR = BASE_DIR / "content" / "transcripts"
+RUBRIC_PATH = BASE_DIR / "content" / "rubric.json"
 
 ASSESSMENT_VERSION = "modah-transcripts-v1"
 
@@ -67,6 +69,33 @@ SAVE_PROFILE_TOOL = {
 }
 
 
+BUILD_RUBRIC_TOOL = {
+    "name": "save_rubric",
+    "description": "Save the mined High/Medium/Low rating rubric for every assessment dimension.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "dimensions": {
+                "type": "array",
+                "minItems": len(DIMENSIONS),
+                "maxItems": len(DIMENSIONS),
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "dimension_key": {"type": "string", "enum": DIMENSION_KEYS},
+                        "high": {"type": "string"},
+                        "medium": {"type": "string"},
+                        "low": {"type": "string"},
+                    },
+                    "required": ["dimension_key", "high", "medium", "low"],
+                },
+            },
+        },
+        "required": ["dimensions"],
+    },
+}
+
+
 def load_transcripts() -> str:
     files = sorted(TRANSCRIPTS_DIR.glob("*.txt"))
     parts = []
@@ -86,6 +115,29 @@ def _dimension_list_text(profile_language: str) -> str:
     for key, labels in DIMENSIONS:
         label = labels.get(profile_language, labels["en"])
         lines.append(f"- {key}: {label}")
+    return "\n".join(lines)
+
+
+def load_rubric() -> dict:
+    if not RUBRIC_PATH.exists():
+        raise FileNotFoundError(
+            f"{RUBRIC_PATH} is missing. Run `python3 assessment/build_rubric.py` once "
+            "to mine High/Medium/Low rating criteria from the transcripts before running "
+            "an assessment - the extraction step refuses to guess its own thresholds."
+        )
+    return json.loads(RUBRIC_PATH.read_text(encoding="utf-8"))
+
+
+def _rubric_text(profile_language: str) -> str:
+    rubric = load_rubric()
+    lines = []
+    for key, labels in DIMENSIONS:
+        label = labels.get(profile_language, labels["en"])
+        entry = rubric[key]
+        lines.append(f"### {key} ({label})")
+        lines.append(f"- High: {entry['high']}")
+        lines.append(f"- Medium: {entry['medium']}")
+        lines.append(f"- Low: {entry['low']}")
     return "\n".join(lines)
 
 
@@ -125,16 +177,17 @@ The user ends the conversation themselves by typing /done when they feel ready -
 
 def build_extraction_system_prompt(profile_language: str) -> str:
     transcripts = load_transcripts()
-    dimensions_text = _dimension_list_text(profile_language)
+    rubric_text = _rubric_text(profile_language)
     language_name = "Arabic" if profile_language == "ar" else "English"
     return f"""You are extracting a structured Module 1 profile from the self-assessment conversation transcript that follows, using the save_profile tool.
 
 Write self_awareness_summary, strengths, weaknesses, and what_to_look_for in {language_name}, based only on what the conversation actually surfaced - don't invent specifics the user didn't share.
 
-Provide a rating of High, Medium, or Low for every one of the following {len(DIMENSIONS)} dimensions - do not omit any, even if a dimension wasn't discussed directly, in which case make the most reasonable honest inference from the surrounding conversation rather than fabricating detail. Use exactly these dimension_key values, and write dimension_label in {language_name}:
-{dimensions_text}
+Provide a rating of High, Medium, or Low for every one of the following {len(DIMENSIONS)} dimensions - do not omit any, even if a dimension wasn't discussed directly, in which case make the most reasonable honest inference from the surrounding conversation rather than fabricating detail. Use exactly these dimension_key values, and write dimension_label in {language_name}.
 
-Ground your interpretation of each dimension in the same مودة course transcripts referenced during the conversation (included below for reference) - not in outside knowledge.
+Use the rubric below to decide between High, Medium, and Low for each dimension - it was mined from the same مودة transcripts referenced during the conversation, so it is your source of truth for what each rating level means. Do not invent your own thresholds or fall back on outside knowledge of what "high" or "low" should mean for a given dimension:
+
+{rubric_text}
 
 ## Reference material - the مودة course transcripts
 
