@@ -3,6 +3,9 @@
 {% block body %}
 <h1>Your profile</h1>
 
+{% if profile is none %}
+<p>Your profile is being generated, please refresh in a moment.</p>
+{% else %}
 <h2>Self-awareness summary</h2>
 <p dir="auto">{{ profile.self_awareness_summary }}</p>
 
@@ -19,4 +22,5 @@
 {% for r in profile.ratings %}
 <div class="rating"><span dir="auto">{{ r.dimension_label }}</span><strong>{{ r.rating }}</strong></div>
 {% endfor %}
+{% endif %}
 {% endblock %}

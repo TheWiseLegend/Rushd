@@ -2,6 +2,9 @@
 {% block title %}Conversation{% endblock %}
 {% block body %}
 <h1>Rushd — Module 1</h1>
+{% if profile is defined and profile is none %}
+<p>Your profile is being generated, please refresh in a moment.</p>
+{% else %}
 {% for m in messages %}
   <div class="msg {{ 'assistant' if m.role == 'assistant' else 'user' }}" dir="auto">{{ m.content }}</div>
 {% endfor %}
@@ -16,4 +19,5 @@
 <form class="done-form" method="post" action="{{ url_for('done') }}">
   <button type="submit">I'm done — show my profile</button>
 </form>
+{% endif %}
 {% endblock %}
