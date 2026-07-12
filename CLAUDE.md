@@ -77,7 +77,7 @@ One-time setup (already done on this machine):
 **Comparison view (two profiles side-by-side): explicitly deferred. Do not
 scope, design, or ask about it. Amr will open that phase when ready.**
 
-## Build Status — Phase 3.5 (v2.0 Refinements) — ACTIVE
+## Build Status — Phase 3.5 (v2.0 Refinements) — COMPLETE
 
 One step at a time. Confirm the done-condition before starting the next.
 Steps below IN PROGRESS or later are not yet implemented — do not implement
@@ -91,7 +91,7 @@ a step ahead of its turn.
 | 4 | Rating justifications (`justification` field on `profile_ratings` + tool schema + result.html + rebuilt rubric) | ✅ Done | — |
 | 5 | Result page redesign (grouped ratings, dimension descriptions, conversation-history toggle) | ✅ Done | — |
 | 6 | Theme coverage indicator (explored themes shown in chat UI, not a percentage bar) | ✅ Done | — |
-| 7 | Cost optimization (`send_turn` → claude-haiku, `run_extraction` stays on Sonnet, verify caching still active) | 🔄 In progress | — |
+| 7 | Cost optimization (`send_turn` → claude-haiku, `run_extraction` stays on Sonnet, verify caching still active) | ✅ Done | — |
 
 ## Hard Rules
 
