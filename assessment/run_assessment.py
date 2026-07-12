@@ -8,13 +8,15 @@ This script loads it only into its own process - it is never exported to the she
 
 import json
 import os
+import sqlite3
 import sys
-from datetime import datetime
 from pathlib import Path
 
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+DB_PATH = BASE_DIR / "data" / "rushd.db"
+SCHEMA_PATH = BASE_DIR / "db" / "schema.sql"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from system_prompt import (
@@ -101,6 +103,45 @@ def run_extraction(client, messages: list, profile_language: str, person_label: 
     }
 
 
+def save_profile_to_db(profile: dict) -> int:
+    DB_PATH.parent.mkdir(exist_ok=True)
+    is_new_db = not DB_PATH.exists()
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        if is_new_db:
+            conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
+        cur = conn.execute(
+            """
+            INSERT INTO profiles
+                (person_label, self_awareness_summary, strengths, weaknesses, what_to_look_for, assessment_version)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                profile["person_label"],
+                profile["self_awareness_summary"],
+                profile["strengths"],
+                profile["weaknesses"],
+                profile["what_to_look_for"],
+                profile["assessment_version"],
+            ),
+        )
+        profile_id = cur.lastrowid
+        conn.executemany(
+            """
+            INSERT INTO profile_ratings (profile_id, dimension_key, dimension_label, rating)
+            VALUES (?, ?, ?, ?)
+            """,
+            [
+                (profile_id, r["dimension_key"], r["dimension_label"], r["rating"])
+                for r in profile["ratings"]
+            ],
+        )
+        conn.commit()
+        return profile_id
+    finally:
+        conn.close()
+
+
 def main():
     load_dotenv(BASE_DIR / ".env")
     api_key = os.environ.get("ANTHROPIC_API_KEY")
@@ -129,15 +170,10 @@ def main():
 
     print(json.dumps(profile, ensure_ascii=False, indent=2))
 
-    save = input("\nSave this profile to a local JSON file? [y/N]: ").strip().lower()
+    save = input("\nSave this profile to the database? [y/N]: ").strip().lower()
     if save == "y":
-        out_dir = BASE_DIR / "output"
-        out_dir.mkdir(exist_ok=True)
-        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        safe_label = "".join(c if c.isalnum() else "_" for c in person_label)
-        out_path = out_dir / f"profile_{safe_label}_{timestamp}.json"
-        out_path.write_text(json.dumps(profile, ensure_ascii=False, indent=2), encoding="utf-8")
-        print(f"Saved to {out_path}")
+        profile_id = save_profile_to_db(profile)
+        print(f"Saved to {DB_PATH} (profile id {profile_id})")
 
 
 if __name__ == "__main__":
