@@ -27,6 +27,31 @@ python3 assessment/run_assessment.py # CLI assessment (dev/testing)
 python3 webapp/app.py                # dev server
 ```
 
+### Docker (Step 5 — deploy)
+
+```bash
+docker compose build       # build the image (rerun after code changes)
+docker compose up -d       # start the container in the background
+docker compose down        # stop and remove the container
+docker compose logs -f     # follow app logs
+```
+
+`restart: always` in `docker-compose.yml` means Docker Desktop brings the
+container back up automatically after a Windows reboot. `data/` is mounted
+as a volume, so `data/rushd.db` lives on the host and survives container
+rebuilds. `.env` is never copied into the image (see `.dockerignore`) — it's
+injected at runtime via `env_file` in `docker-compose.yml`.
+
+### Backup / restore
+
+```bash
+./backup.sh    # copies data/rushd.db -> data/rushd.db.backup-<timestamp>
+```
+
+To restore: stop the container (`docker compose down`), run
+`cp data/rushd.db.backup-<timestamp> data/rushd.db`, then start it again
+(`docker compose up -d`).
+
 ## Build Status — Phase 3
 
 One step at a time. Confirm the done-condition before starting the next.
@@ -37,7 +62,7 @@ One step at a time. Confirm the done-condition before starting the next.
 | 2 | Assessment engine | ✅ Done | CLI produces a real 14-rating profile |
 | 3 | Web app (auth + chat UI) | ✅ Done | Full browser flow verified end-to-end; prompt caching live |
 | 4 | Save + view own results | ✅ Done | User hits their invite link on a new browser/device and sees their completed profile instead of starting over |
-| 5 | Deploy + back up | 🔄 **NEXT** | Survives reboot; DB has a restore path |
+| 5 | Deploy + back up | 🔄 **In progress** | Survives reboot; DB has a restore path |
 
 **Comparison view (two profiles side-by-side): explicitly deferred. Do not
 scope, design, or ask about it. Amr will open that phase when ready.**
