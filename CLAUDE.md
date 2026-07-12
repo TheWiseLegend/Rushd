@@ -90,7 +90,7 @@ scope, design, or ask about it. Amr will open that phase when ready.**
 
 ## Deferred Issues (address at the step noted)
 
-- `SESSION_COOKIE_SECURE` + `SameSite` not explicitly set — fix in Step 5 (HTTPS context)
+- `SESSION_COOKIE_SECURE` + `SameSite` not set — deferred until HTTPS is added (no current step assigned)
 - Null-profile template guard added in Step 3 close — known, acceptable at this user count
 
 ## Backlog (not in scope for any current step)
