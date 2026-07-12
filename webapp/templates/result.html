@@ -1,5 +1,23 @@
 {% extends "base.html" %}
 {% block title %}Your profile{% endblock %}
+{% block head %}
+<style>
+  .rating-justification { color: #666; font-size: 0.9rem; margin: 0.15rem 0 0.75rem; }
+  h3 { font-size: 0.9rem; margin: 1.25rem 0 0.25rem; color: #555; }
+  .rating-ehr {
+    margin-top: 0.75rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid #d8cdb8;
+    background: #faf6ec;
+    border-radius: 0.5rem;
+  }
+  .rating-ehr-row { display: flex; justify-content: space-between; align-items: baseline; }
+  .rating-ehr-label { font-weight: 600; }
+  .rating-ehr-value { font-weight: 600; }
+  .rating-ehr .rating-justification { margin-bottom: 0; }
+  .rating-group { margin-top: 0.25rem; }
+</style>
+{% endblock %}
 {% block body %}
 <h1>Your profile</h1>
 
@@ -19,9 +37,31 @@
 <p dir="auto">{{ profile.what_to_look_for }}</p>
 
 <h2>Ratings</h2>
-{% for r in profile.ratings %}
-<div class="rating"><span dir="auto">{{ r.dimension_label }}</span><strong>{{ r.rating }}</strong></div>
-{% if r.justification %}<p dir="auto" style="color: #666; font-size: 0.9rem; margin: 0.15rem 0 0.75rem;">{{ r.justification }}</p>{% endif %}
+
+{% for r in profile.ratings if r.dimension_key == 'emotional_hunger_risk' %}
+<div class="rating-ehr">
+  <div class="rating-ehr-row">
+    <span class="rating-ehr-label" dir="auto">{{ r.dimension_label }}</span>
+    <strong class="rating-ehr-value">{{ r.rating }}</strong>
+  </div>
+  {% if r.justification %}<p class="rating-justification" dir="auto">{{ r.justification }}</p>{% endif %}
+</div>
 {% endfor %}
+
+<div class="rating-group">
+<h3>Maturity</h3>
+{% for r in profile.ratings if r.dimension_key.startswith('maturity_') %}
+<div class="rating"><span dir="auto">{{ r.dimension_label }}</span><strong>{{ r.rating }}</strong></div>
+{% if r.justification %}<p class="rating-justification" dir="auto">{{ r.justification }}</p>{% endif %}
+{% endfor %}
+</div>
+
+<div class="rating-group">
+<h3>Needs</h3>
+{% for r in profile.ratings if r.dimension_key.startswith('need_') %}
+<div class="rating"><span dir="auto">{{ r.dimension_label }}</span><strong>{{ r.rating }}</strong></div>
+{% if r.justification %}<p class="rating-justification" dir="auto">{{ r.justification }}</p>{% endif %}
+{% endfor %}
+</div>
 {% endif %}
 {% endblock %}
