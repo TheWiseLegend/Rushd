@@ -186,7 +186,7 @@ def get_profile_with_ratings(profile_id: int, person_label: str) -> dict | None:
         if profile_row is None:
             return None
         rating_rows = conn.execute(
-            "SELECT dimension_key, dimension_label, rating FROM profile_ratings WHERE profile_id = ?",
+            "SELECT dimension_key, dimension_label, rating, justification FROM profile_ratings WHERE profile_id = ?",
             (profile_id,),
         ).fetchall()
         return {

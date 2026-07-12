@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS profile_ratings (
     dimension_key  TEXT NOT NULL,                 -- stable machine key, e.g. "emotional_hunger_risk"
     dimension_label TEXT NOT NULL,                -- human-readable, e.g. "Emotional Hunger Risk"
     rating         TEXT NOT NULL CHECK (rating IN ('High', 'Medium', 'Low')),
+    justification  TEXT,                          -- nullable: rows written before this field existed have no value
     UNIQUE (profile_id, dimension_key)
 );
 

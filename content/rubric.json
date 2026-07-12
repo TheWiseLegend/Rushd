@@ -1,72 +1,72 @@
 {
   "maturity_physical": {
-    "high": "The person describes having reached full physical/bodily maturity (بلوغ كامل) with the body capable of reproduction and bearing the physical responsibilities of married life, including general health that allows fulfilling marital duties, and this is understood as distinct from just reaching the legal marriage age.",
-    "medium": "A middle ground between full physical maturity (complete bodily development and health enabling marital and reproductive responsibilities) and being only nominally 'grown up' (e.g. just reaching legal age or puberty without the accompanying capacity) - the transcripts don't detail intermediate signs, so this is an interpolation.",
-    "low": "The person equates maturity with merely reaching puberty or the legal age for marriage ('the body grew up') without truly having completed physical development or the health/capacity to handle the physical responsibilities of married life - the transcript explicitly warns against this shallow view."
+    "high": "Person describes having reached full physical/bodily maturity (بلوغ كامل) with the ability to bear children and physically handle the responsibilities of married life, going beyond just reaching the legal age of marriage - i.e. general health that allows fulfilling the demands of marital life.",
+    "medium": "A middle ground between full physical maturity (complete bodily development, health allowing marital responsibilities) and mere reliance on having reached legal marrying age or puberty alone, as neither extreme described in the material.",
+    "low": "Person equates maturity with simply having reached puberty or the legal marrying age ('جسمك كبر') without any real completion of physical development or health capacity to handle the demands of marriage, treating physical growth as the only sign of readiness."
   },
   "maturity_psychological": {
-    "high": "The person shows ability to manage and understand their emotions, control anger/sadness rather than being ruled by them, has psychological stability, can face pressures without collapsing, takes responsibility for their feelings and actions without blaming others, expresses needs correctly, accepts criticism, and sees problems as learning opportunities.",
-    "medium": "A middle ground between full emotional self-management, stability, and accountability described as psychological maturity, and being ruled by uncontrolled anger/sadness, collapsing under pressure, and blaming others - as neither extreme described in the material.",
-    "low": "The person lets emotions like anger or sadness completely control them, collapses under pressure, blames people around them for their feelings/actions, cannot express needs properly, and cannot accept criticism or learn from problems - explicitly said to cause small disagreements to escalate into major marital problems."
+    "high": "Person shows ability to manage and understand their own emotions, control them rather than being ruled by anger/sadness, maintains psychological stability under pressure, takes responsibility for their feelings/actions without blaming others, expresses needs correctly, accepts criticism, and sees problems as learning opportunities.",
+    "medium": "A middle ground between clear emotional self-control/stability/accountability and being ruled by uncontrolled emotions and blaming others, as neither extreme described in the material.",
+    "low": "Person lets anger or sadness completely control them, cannot face pressure without collapsing, blames people around them for their feelings/behavior, and small disagreements escalate into major problems because there is no emotional regulation."
   },
   "maturity_social": {
-    "high": "The person can deal well and respectfully with family, friends, and acquaintances, understands their social roles (as spouse, parent, child, friend), maintains these relationships without letting them negatively affect the marriage, balances privacy of the home with social duties, and can handle in-law interference or external disputes calmly and wisely.",
-    "medium": "A middle ground between skillfully balancing family/social roles and outside relationships without harming the marriage, and letting external relationships or interference disrupt home stability - as neither extreme described in the material.",
-    "low": "The person cannot manage relationships with in-laws, family, or friends respectfully, lets external interference or social role confusion shake the stability of the household, or fails to balance social duties with the privacy of married life."
+    "high": "Person can deal well and respectfully with family, friends, and acquaintances, understands their social roles (spouse, parent, child, friend), maintains these relationships without letting them harm the marriage, handles in-law interference or external conflicts calmly and wisely, and balances privacy with social duties.",
+    "medium": "A middle ground between smoothly balancing family/in-law relationships with the marriage and letting external relationships or interference destabilize the household, as neither extreme described in the material.",
+    "low": "Person cannot manage relationships with in-laws/family/friends without conflicts spilling into the marriage, cannot handle external interference calmly, and lets social role confusion or poor boundaries shake the stability of the household."
   },
   "maturity_professional": {
-    "high": "The person has a stable source of income, even if modest, and has the capacity to work and earn, enabling them to bear the material responsibilities toward their household and family.",
-    "medium": "A middle ground between having a stable, even if small, income and capacity to support a household, and having no ability or source of income to bear material responsibilities - as neither extreme described in the material.",
-    "low": "The person has no stable source of income and lacks the capacity to work and earn, meaning they cannot bear the material responsibilities toward a household and family - explicitly described as a required minimum even if very small."
+    "high": "Person has a stable, even if modest, source of income and the capacity/willingness to work and earn, enabling them to shoulder financial responsibilities toward a household and family.",
+    "medium": "A middle ground between having a stable ability and willingness to work/earn to support a household and having no real capacity or intent to shoulder financial responsibility, as neither extreme described in the material.",
+    "low": "Person has no source of income and no real capacity or intention to work and earn, leaving them unable to shoulder any financial responsibility toward a future household."
   },
   "maturity_intellectual": {
-    "high": "The person can think logically, analyze matters deeply, make correct decisions after reflection rather than acting impulsively on any idea or opinion, and has a vision for life and marriage rather than living day-to-day; this enables calm joint discussion and problem-solving with a partner.",
-    "medium": "A middle ground between deep logical analysis, deliberate decision-making, and having a life vision, versus impulsively following ideas without thought and living purely day-to-day - as neither extreme described in the material.",
-    "low": "The person acts impulsively, follows any idea or opinion without reflection, cannot analyze situations or make sound decisions, and has no real vision for life or marriage beyond living day-to-day - explicitly described as undermining the couple's ability to discuss and resolve issues."
+    "high": "Person shows logical thinking, deep analysis of matters, ability to make sound decisions after reflection rather than impulsively following any idea or opinion, and has a clear vision for life and marriage rather than living day-to-day.",
+    "medium": "A middle ground between deliberate, logical, well-considered decision-making with a clear life vision and impulsively following ideas without thought or vision, as neither extreme described in the material.",
+    "low": "Person acts impulsively, jumping after any idea or opinion without thinking it through, lacks logical analysis, and has no real vision for life or marriage, simply living day by day."
   },
   "emotional_hunger_risk": {
-    "high": "The person shows clear signs of choosing/staying in relationships from a place of emotional need or 'hunger' - e.g., feeling unable to breathe/live without the other person, tolerating insults, control, or being devalued for fear the source of the need will be cut off, becoming captivated by whoever fulfills a deprived need (attention, appreciation, security) while ignoring red flags, and describing intense dopamine-driven attraction that shuts down rational judgement - a pattern the transcripts call falling into 'the trap of emotional need,' which can lead to toxic dependence or pathological attachment.",
-    "medium": "A middle ground between entering a relationship from a place of self-sufficiency/'addition' (having filled one's own emotional cup first) and entering purely from need/hunger where one clings desperately and ignores warning signs - as neither extreme described in the material.",
-    "low": "The person describes having filled their emotional cup beforehand (through connection with God, self-sufficiency, and a wide circle of mutually supportive relationships) so that they enter a relationship from a place of 'addition' rather than need, choosing consciously and able to see the other's flaws clearly rather than being blinded by dopamine-driven infatuation."
+    "high": "Person shows clear signs of entering/wanting relationships from a place of emotional deficit ('جعان عاطفيا') - being drawn irrationally strong to whoever fulfills an unmet need (attention, appreciation, security), ignoring glaring red flags or mistreatment, feeling unable to breathe/survive without the other person, and describing intense dopamine-like infatuation that blocks rational judgment - all indicating high risk of choosing based on need rather than genuine compatibility.",
+    "medium": "A middle ground between choosing from a place of fullness/self-sufficiency (secure, discerning, able to see the partner's flaws clearly) and choosing purely to fill an unmet emotional void with blindness to red flags, as neither extreme described in the material.",
+    "low": "Person describes having filled their own emotional cup first (through faith, self-sufficiency, a wide circle of people they exchange feelings with) before considering a partner, entering relationships from a place of 'addition' rather than 'need', and can see a potential partner's flaws clearly rather than being blinded by relief of a need being met."
   },
   "need_understanding": {
-    "high": "The person describes real mutual understanding - being understood and able to express themselves, and being able to understand and let the partner express, disagreeing without hurting each other, discussing respectfully, and reaching common ground even without being identical.",
-    "medium": "A middle ground between fully understanding each other and expressing needs respectfully versus disagreements turning into hurtful clashes with no meeting point - as neither extreme described in the material.",
-    "low": "The person describes an inability to express themselves or understand the partner, disagreements that turn into hurtful conflict rather than respectful discussion, and no ability to reach common ground."
+    "high": "Person describes wanting/having mutual comprehension - understanding the other and being understood, being able to express oneself and disagree respectfully without hurting each other, reaching common ground through discussion rather than requiring identical views.",
+    "medium": "A middle ground between full mutual comprehension with respectful disagreement and a complete absence of being understood or able to express oneself, as neither extreme described in the material.",
+    "low": "Person describes not being understood or not being able to express themselves to the other, disagreements that turn hurtful rather than respectful discussion, and no ability to reach common ground."
   },
   "need_containment": {
-    "high": "The person describes containment (احتواء) as someone who can reassure them when they're overwhelmed, hug them without needing explanation, make an effort to understand their weakness, and stand beside them rather than against them - not everything needing a solution, sometimes just a hug or a reassuring word is enough.",
-    "medium": "A middle ground between actively being comforted/held and understood without judgment in distress, and having no one attempt to understand or emotionally hold them during hard moments - as neither extreme described in the material.",
-    "low": "The person lacks anyone who reassures or comforts them in moments of being overwhelmed, with no attempt made to understand their weaknesses or stand beside them emotionally."
+    "high": "Person describes wanting/having containment (احتواء) - a partner who reassures them when they're overwhelmed, hugs them without needing explanation, tries hard to understand their weakness and stands beside them, recognizing that not everything needs a solution, sometimes just a hug or a comforting word ('I'm beside you') is enough.",
+    "medium": "A middle ground between being fully embraced/comforted in moments of weakness without judgment and being left alone with no attempt at emotional comfort, as neither extreme described in the material.",
+    "low": "Person describes lacking any comforting presence during distress - no one attempts to understand their weakness, offer a hug, or reassurance, being left to deal with being overwhelmed alone."
   },
   "need_attraction": {
-    "high": "The person describes attraction (انجذاب) not just physically but psychologically, mentally, and physically, feeling truly fulfilled and satisfied from within by the other person, feeling mentally attracted when talking, psychologically at ease, and finding the other's appearance pleasing to them personally.",
-    "medium": "A middle ground between feeling fully satisfied psychologically, mentally, and physically by the partner, and feeling no such multi-dimensional attraction at all - as neither extreme described in the material.",
-    "low": "The person does not feel satisfied or fulfilled from within by the partner across psychological, mental, or physical dimensions - there is no described sense of being drawn to or at ease with the other person."
+    "high": "Person describes attraction (انجذاب) not just physical/beauty but psychological and intellectual as well - feeling truly satisfied by the person from within, finding conversation intellectually stimulating, feeling psychologically at ease, and finding the person's appearance appealing.",
+    "medium": "A middle ground between genuine psychological/intellectual/physical attraction on all levels and a total absence of feeling drawn to the person in any of these dimensions, as neither extreme described in the material.",
+    "low": "Person describes lacking a sense of being drawn to the partner - no intellectual stimulation in conversation, no psychological ease, and no sense of satisfaction from the person, whether physically, psychologically, or intellectually."
   },
   "need_companionship": {
-    "high": "The person describes 'الونس' (companionship/comfort in presence) as feeling not alone even in silence, where silence together feels restful rather than awkward or empty, echoing the Quranic idea of 'sakina' (tranquility) present even in tiring moments.",
-    "medium": "A middle ground between silence together feeling restful and comforting and silence feeling empty, awkward, or lonely - as neither extreme described in the material.",
-    "low": "The person experiences silence with the partner as uncomfortable or empty, feeling alone even in the other's presence rather than experiencing the described restful companionship."
+    "high": "Person describes companionship/الونس - feeling they are not alone even in silence, that silence together is comforting rather than awkward, describing the relationship as providing sakina (tranquility) not just in happy moments but at all times, including tiredness.",
+    "medium": "A middle ground between comfortable, comforting togetherness (even silent) and feeling isolated/bored even in the other's presence, as neither extreme described in the material.",
+    "low": "Person describes feeling alone even with the other person present, silence between them feeling awkward or empty rather than comforting, lacking any sense of companionship or shared ease."
   },
   "need_trust": {
-    "high": "The person describes trust as providing a sense of security with the partner, being able to confide weaknesses without fearing betrayal or being used against them, and feeling safe even amid disagreement.",
-    "medium": "A middle ground between fully trusting the partner enough to feel safe and disclose vulnerabilities, and being suspicious, doubtful, or fearful of betrayal - as neither extreme described in the material.",
-    "low": "The person is suspicious of the partner, doubts them, or is afraid of betrayal, described as making it impossible to love peacefully or share one's weaknesses without fear."
+    "high": "Person describes trust as providing a sense of security with the other, being able to confide weaknesses without fear of being exploited or betrayed, feeling safe even when disagreeing, with no suspicion or doubt about the partner.",
+    "medium": "A middle ground between full security/confidence in the partner with no doubts and constant suspicion/fear of betrayal that prevents peaceful love, as neither extreme described in the material.",
+    "low": "Person describes being suspicious of or uneasy with the partner, fearing betrayal, being unable to share their weaknesses for fear the partner will use it against them, and unable to feel safe or love peacefully as a result."
   },
   "need_belonging": {
-    "high": "The person describes a sense of belonging (انتماء) - feeling not like a stranger, feeling the partner is like family/blood/kin, sensing a deeper bond beyond just being spouses, similar to how marriage itself is framed as fulfilling humans' fundamental need to belong and not be alone.",
-    "medium": "A middle ground between feeling deeply that the partner is like one's own family with a profound bond, and feeling like a stranger or outsider to them - as neither extreme described in the material.",
-    "low": "The person feels like a stranger to the partner, without any deeper sense of connection or belonging beyond the formal relationship."
+    "high": "Person describes a sense of belonging (الانتماء) - feeling they are not a stranger, that there is a deeper bond than just being spouses, feeling the other person is like family/blood/their own people ('من أهلي، من دمي').",
+    "medium": "A middle ground between a deep felt bond of belonging (feeling like family) and feeling like strangers with no deeper connection, as neither extreme described in the material.",
+    "low": "Person describes feeling like a stranger to the partner, with no sense of deeper bond beyond a formal relationship, lacking any feeling of being 'from the same people/family'."
   },
   "need_support": {
-    "high": "The person describes support (سند) as having someone who pushes them forward, sees them falling and lifts them rather than just watching, celebrates their success genuinely, and provides constant backing - likened to how the Prophet was described as a support and comfort to his wives, listening, being compassionate, and enduring.",
-    "medium": "A middle ground between having an active, encouraging supporter who lifts them up and celebrates them, and having no one who backs them or only watching passively while they struggle - as neither extreme described in the material.",
-    "low": "The person lacks anyone who pushes them forward or helps them up when struggling; others merely watch them fall rather than supporting them, with no genuine encouragement or backing described."
+    "high": "Person describes support (السند) - a partner who pushes them forward, who sees them falling but doesn't just watch, who carries them, celebrates their success, and genuinely wishes them well, likened to the Prophet's constant listening, compassion, and endurance for his wives.",
+    "medium": "A middle ground between actively being carried/pushed forward and celebrated by the partner and being left to struggle alone or unsupported in hardship, as neither extreme described in the material.",
+    "low": "Person describes a partner who merely watches them struggle without helping, offers no encouragement or celebration of success, and provides no sense of being pushed forward or genuinely wished well."
   },
   "need_reassurance": {
-    "high": "The person describes reassurance/tranquility (الطمأنينة) as feeling that the partner's presence reduces their fear rather than increasing it, so the relationship is not a battlefield of psychological warfare, worry, or tension but a source of calm and security.",
-    "medium": "A middle ground between the partner's presence actively reducing fear and providing calm, and the relationship being a source of anxiety, tension, or psychological conflict - as neither extreme described in the material.",
-    "low": "The person experiences the relationship as a source of increased fear, worry, tension, or psychological conflict rather than calm, described as the opposite of the reassurance a healthy relationship should provide."
+    "high": "Person describes reassurance/tranquility (الطمأنينة) - feeling that the presence of the partner reduces their fears rather than increasing them, with the relationship not being a battlefield of psychological warfare, worry, or tension but a source of calm.",
+    "medium": "A middle ground between the relationship being a genuine source of calm that reduces fear and the relationship being a source of constant worry/tension, as neither extreme described in the material.",
+    "low": "Person describes the relationship as a source of increased fear, tension, or psychological conflict rather than calm, with the partner's presence adding worry instead of reducing it."
   }
 }

@@ -53,8 +53,16 @@ SAVE_PROFILE_TOOL = {
                         "dimension_key": {"type": "string", "enum": DIMENSION_KEYS},
                         "dimension_label": {"type": "string"},
                         "rating": {"type": "string", "enum": ["High", "Medium", "Low"]},
+                        "justification": {
+                            "type": "string",
+                            "description": (
+                                "1-2 sentences grounded in what the user actually said in the "
+                                "conversation that led to this rating. Reference their specific "
+                                "words or situation, not a generic statement about the dimension."
+                            ),
+                        },
                     },
-                    "required": ["dimension_key", "dimension_label", "rating"],
+                    "required": ["dimension_key", "dimension_label", "rating", "justification"],
                 },
             },
         },

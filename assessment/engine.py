@@ -103,11 +103,11 @@ def save_profile_to_db(profile: dict) -> int:
         profile_id = cur.lastrowid
         conn.executemany(
             """
-            INSERT INTO profile_ratings (profile_id, dimension_key, dimension_label, rating)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO profile_ratings (profile_id, dimension_key, dimension_label, rating, justification)
+            VALUES (?, ?, ?, ?, ?)
             """,
             [
-                (profile_id, r["dimension_key"], r["dimension_label"], r["rating"])
+                (profile_id, r["dimension_key"], r["dimension_label"], r["rating"], r.get("justification") or None)
                 for r in profile["ratings"]
             ],
         )

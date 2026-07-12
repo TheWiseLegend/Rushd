@@ -21,6 +21,7 @@
 <h2>Ratings</h2>
 {% for r in profile.ratings %}
 <div class="rating"><span dir="auto">{{ r.dimension_label }}</span><strong>{{ r.rating }}</strong></div>
+{% if r.justification %}<p dir="auto" style="color: #666; font-size: 0.9rem; margin: 0.15rem 0 0.75rem;">{{ r.justification }}</p>{% endif %}
 {% endfor %}
 {% endif %}
 {% endblock %}
