@@ -12,7 +12,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = BASE_DIR / "data" / "rushd.db"
 SCHEMA_PATH = BASE_DIR / "db" / "schema.sql"
 
-MODEL = "claude-sonnet-5"
+CONVERSATION_MODEL = "claude-haiku-4-5-20251001"
+EXTRACTION_MODEL = "claude-sonnet-5"
 SESSION_START_TOKEN = "[session-start]"
 
 
@@ -38,7 +39,7 @@ def send_turn(client, system_prompt: str, messages: list, user_text: str | None 
         messages.append({"role": "user", "content": user_text})
 
     response = client.messages.create(
-        model=MODEL,
+        model=CONVERSATION_MODEL,
         max_tokens=1024,
         system=[{"type": "text", "text": system_prompt, "cache_control": {"type": "ephemeral"}}],
         messages=messages,
@@ -54,7 +55,7 @@ def run_extraction(client, messages: list, profile_language: str, person_label: 
     convo.append({"role": "user", "content": "Please now extract the structured profile using the save_profile tool."})
 
     response = client.messages.create(
-        model=MODEL,
+        model=EXTRACTION_MODEL,
         max_tokens=3000,
         system=[{"type": "text", "text": extraction_system, "cache_control": {"type": "ephemeral"}}],
         messages=convo,
