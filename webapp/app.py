@@ -136,13 +136,32 @@ def done():
     if convo["status"] != "active":
         return redirect(url_for("chat"))
 
-    profile = engine.run_extraction(
-        get_client(), convo["messages"], convo["profile_language"], convo["person_label"]
+    # Atomic claim, before the (slow) API call: only the request that actually
+    # flips active -> done gets to run extraction. A concurrent /done (double
+    # submit) sees rowcount 0 and bails out instead of extracting twice.
+    claimed = db.update_conversation_session(
+        convo["session_id"], convo["person_label"], convo["messages"], status="done"
     )
-    profile_id = engine.save_profile_to_db(profile)
-    db.update_conversation_session(
-        convo["session_id"], convo["person_label"], convo["messages"], status="done", profile_id=profile_id
-    )
+    if claimed == 0:
+        return redirect(url_for("chat"))
+
+    try:
+        profile = engine.run_extraction(
+            get_client(), convo["messages"], convo["profile_language"], convo["person_label"]
+        )
+        profile_id = engine.save_profile_to_db(profile)
+        db.set_profile_id(convo["session_id"], convo["person_label"], profile_id)
+    except Exception:
+        app.logger.exception("Profile extraction failed for session %s", convo["session_id"])
+        db.update_conversation_session(
+            convo["session_id"], convo["person_label"], convo["messages"], status="active"
+        )
+        visible_messages = [m for m in convo["messages"] if m["content"] != engine.SESSION_START_TOKEN]
+        return render_template(
+            "chat.html",
+            messages=visible_messages,
+            error="Something went wrong generating your profile — your conversation is saved, please try again.",
+        ), 500
 
     return redirect(url_for("chat"))
 

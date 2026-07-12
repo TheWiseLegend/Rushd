@@ -83,18 +83,52 @@ def load_conversation_session(session_id: str, person_label: str) -> dict | None
         conn.close()
 
 
-def update_conversation_session(
-    session_id: str, person_label: str, messages: list, status: str, profile_id: int | None = None
-) -> None:
+def update_conversation_session(session_id: str, person_label: str, messages: list, status: str) -> int:
+    """Returns the number of rows updated.
+
+    For status='done' this is a compare-and-swap: the WHERE clause requires the
+    row to currently be 'active', so if two /done requests race, only one gets
+    rowcount=1 and is allowed to run extraction - the loser sees rowcount=0 and
+    bails out instead of extracting twice. profile_id is attached afterward via
+    set_profile_id(), once extraction succeeds, since it isn't known yet at the
+    point this flip needs to happen (before the API call).
+    """
+    conn = get_conn()
+    try:
+        if status == "done":
+            cur = conn.execute(
+                """
+                UPDATE conversation_sessions
+                SET status = 'done', messages_json = ?, updated_at = datetime('now')
+                WHERE session_id = ? AND person_label = ? AND status = 'active'
+                """,
+                (json.dumps(messages), session_id, person_label),
+            )
+        else:
+            cur = conn.execute(
+                """
+                UPDATE conversation_sessions
+                SET messages_json = ?, status = ?, updated_at = datetime('now')
+                WHERE session_id = ? AND person_label = ?
+                """,
+                (json.dumps(messages), status, session_id, person_label),
+            )
+        conn.commit()
+        return cur.rowcount
+    finally:
+        conn.close()
+
+
+def set_profile_id(session_id: str, person_label: str, profile_id: int) -> None:
+    """Attaches the extracted profile to a session already flipped to 'done' by
+    update_conversation_session's compare-and-swap. Only the single request that
+    won that CAS ever reaches here, so no further guard is needed."""
     conn = get_conn()
     try:
         conn.execute(
-            """
-            UPDATE conversation_sessions
-            SET messages_json = ?, status = ?, profile_id = COALESCE(?, profile_id), updated_at = datetime('now')
-            WHERE session_id = ? AND person_label = ?
-            """,
-            (json.dumps(messages), status, profile_id, session_id, person_label),
+            "UPDATE conversation_sessions SET profile_id = ?, updated_at = datetime('now') "
+            "WHERE session_id = ? AND person_label = ?",
+            (profile_id, session_id, person_label),
         )
         conn.commit()
     finally:
