@@ -138,11 +138,27 @@ def set_profile_id(session_id: str, person_label: str, profile_id: int) -> None:
 def get_latest_profile_id(person_label: str) -> int | None:
     """Looks up an existing completed profile by person_label alone - used by
     /invite, where a new browser/device has no session cookie yet to look up
-    a profile_id through."""
+    a profile_id through.
+
+    "Completed" is defined by conversation_sessions.status = 'done' - that's
+    the actual completion flag used everywhere else in this codebase (see
+    schema.sql's CHECK (status IN ('active', 'done')), and set_profile_id's
+    docstring: profile_id is only ever attached to a session already flipped
+    to 'done'). A row existing in profiles is not itself proof of that - so
+    this joins through conversation_sessions rather than querying profiles
+    alone.
+    """
     conn = get_conn()
     try:
         row = conn.execute(
-            "SELECT id FROM profiles WHERE person_label = ? ORDER BY id DESC LIMIT 1",
+            """
+            SELECT profiles.id
+            FROM profiles
+            JOIN conversation_sessions ON conversation_sessions.profile_id = profiles.id
+            WHERE profiles.person_label = ? AND conversation_sessions.status = 'done'
+            ORDER BY profiles.id DESC
+            LIMIT 1
+            """,
             (person_label,),
         ).fetchone()
         return row["id"] if row else None
