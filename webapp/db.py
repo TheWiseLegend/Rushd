@@ -170,6 +170,23 @@ def get_latest_profile_id(person_label: str) -> int | None:
         conn.close()
 
 
+def get_conversation_messages_for_profile(profile_id: int, person_label: str) -> list | None:
+    """Scoped by person_label, same reason as get_profile_with_ratings - lets the
+    result page show the transcript behind a profile without a live session cookie
+    (e.g. /invite on a new device)."""
+    conn = get_conn()
+    try:
+        row = conn.execute(
+            "SELECT messages_json FROM conversation_sessions WHERE profile_id = ? AND person_label = ?",
+            (profile_id, person_label),
+        ).fetchone()
+        if row is None:
+            return None
+        return json.loads(row["messages_json"])
+    finally:
+        conn.close()
+
+
 def get_profile_with_ratings(profile_id: int, person_label: str) -> dict | None:
     """Scoped by person_label too, for the same reason conversation_sessions is -
     a profile_id from a session cookie should never let one person read another's profile."""

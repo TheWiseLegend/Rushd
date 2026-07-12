@@ -16,6 +16,10 @@
   .rating-ehr-value { font-weight: 600; }
   .rating-ehr .rating-justification { margin-bottom: 0; }
   .rating-group { margin-top: 0.25rem; }
+  .dimension-description { color: #888; font-size: 0.85rem; margin: 0.1rem 0 0.3rem; }
+  .conversation-toggle { margin-top: 2rem; border-top: 1px solid #eee; padding-top: 1rem; }
+  .conversation-toggle summary { cursor: pointer; font-weight: 600; }
+  .conversation-toggle .msg { margin: 0.75rem 0 0; }
 </style>
 {% endblock %}
 {% block body %}
@@ -36,6 +40,24 @@
 <h2>What to look for in a partner</h2>
 <p dir="auto">{{ profile.what_to_look_for }}</p>
 
+{% set is_ar = profile.ratings and profile.ratings[0].dimension_label and '؀' <= profile.ratings[0].dimension_label[0] <= 'ۿ' %}
+{% set descriptions = {
+  'maturity_physical': {'ar': 'الجاهزية الجسدية والصحية لتحمل مسؤوليات الحياة الزوجية، وليس مجرد بلوغ سن الزواج.', 'en': 'Physical and health readiness for the responsibilities of married life — not just having reached marrying age.'},
+  'maturity_psychological': {'ar': 'القدرة على فهم مشاعرك والتحكم بها بدل أن تتحكم بك، والتعامل مع الضغوط دون انهيار.', 'en': 'The ability to understand and manage your emotions rather than being ruled by them, and to handle pressure without falling apart.'},
+  'maturity_social': {'ar': 'القدرة على التعامل بحكمة مع الأهل والأصدقاء ودائرتك الاجتماعية دون أن يؤثر ذلك على استقرار الزواج.', 'en': 'The ability to navigate family, friends, and your social circle wisely without letting it destabilize a marriage.'},
+  'maturity_professional': {'ar': 'امتلاك مصدر دخل ثابت، ولو متواضعاً، والقدرة والرغبة في العمل لتحمل مسؤولية بيت المستقبل.', 'en': 'Having a stable, even modest, source of income and the willingness to work and support a future household.'},
+  'maturity_intellectual': {'ar': 'التفكير المنطقي واتخاذ القرارات بعد تفكير وتروٍ، مع رؤية واضحة للحياة بدل العيش يوماً بيوم.', 'en': 'Thinking things through and making decisions deliberately, with a clear vision for life rather than living day to day.'},
+  'emotional_hunger_risk': {'ar': 'مدى ميلك لاختيار شريك من مكان الاحتياج العاطفي غير الملبى، بدل الاختيار من مكان الاكتفاء والوضوح.', 'en': 'How much you might choose a partner out of an unmet emotional need, rather than from a place of fullness and clear judgment.'},
+  'need_understanding': {'ar': 'القدرة على فهم الطرف الآخر والتعبير عن نفسك، ومناقشة الخلافات باحترام دون جرح.', 'en': 'Understanding each other, expressing yourself clearly, and working through disagreements respectfully.'},
+  'need_containment': {'ar': 'أن تجد من يهدئك ويتفهم ضعفك ويقف بجانبك دون أن يفرض حلولاً — حضور يطمئن.', 'en': 'Having someone who calms you, understands your weak moments, and stays beside you — sometimes just a comforting presence, not a fix.'},
+  'need_attraction': {'ar': 'الانجذاب النفسي والفكري والجسدي معاً، أن تشعر بالراحة والإعجاب على أكثر من مستوى.', 'en': 'Feeling drawn to someone psychologically, intellectually, and physically — not just on one level.'},
+  'need_companionship': {'ar': 'الشعور بالأنس حتى في الصمت، وأن وجود الطرف الآخر يمنحك طمأنينة لا ملل.', 'en': 'Feeling at ease together even in silence — companionship that brings calm, not boredom.'},
+  'need_trust': {'ar': 'الشعور بالأمان الكافي لمشاركة ضعفك دون خوف من استغلاله، والقدرة على الاختلاف دون فقدان هذا الأمان.', 'en': "Feeling safe enough to share your weaknesses without fear they'll be used against you, even when you disagree."},
+  'need_belonging': {'ar': 'الشعور بأن الطرف الآخر أقرب من مجرد شريك، وكأنه من أهلك، لا غريب عنك.', 'en': 'Feeling like the other person is closer than just a spouse — like family, not a stranger.'},
+  'need_support': {'ar': 'أن تجد من يدفعك للأمام، يحتفي بنجاحك، ولا يتركك تسقط وحدك.', 'en': "Having someone who pushes you forward, celebrates your wins, and doesn't just watch you struggle alone."},
+  'need_reassurance': {'ar': 'أن يقلل وجود الطرف الآخر من مخاوفك بدل أن يزيدها، وأن تكون العلاقة مصدر هدوء لا توتر دائم.', 'en': "The other person's presence reducing your fears rather than adding to them — a relationship that brings calm, not constant tension."},
+} %}
+
 <h2>Ratings</h2>
 
 {% for r in profile.ratings if r.dimension_key == 'emotional_hunger_risk' %}
@@ -44,24 +66,36 @@
     <span class="rating-ehr-label" dir="auto">{{ r.dimension_label }}</span>
     <strong class="rating-ehr-value">{{ r.rating }}</strong>
   </div>
+  {% if r.dimension_key in descriptions %}<p class="dimension-description" dir="auto">{{ descriptions[r.dimension_key].ar if is_ar else descriptions[r.dimension_key].en }}</p>{% endif %}
   {% if r.justification %}<p class="rating-justification" dir="auto">{{ r.justification }}</p>{% endif %}
 </div>
 {% endfor %}
 
 <div class="rating-group">
-<h3>Maturity</h3>
+<h3 dir="auto">{{ 'النضج' if is_ar else 'Maturity' }}</h3>
 {% for r in profile.ratings if r.dimension_key.startswith('maturity_') %}
 <div class="rating"><span dir="auto">{{ r.dimension_label }}</span><strong>{{ r.rating }}</strong></div>
+{% if r.dimension_key in descriptions %}<p class="dimension-description" dir="auto">{{ descriptions[r.dimension_key].ar if is_ar else descriptions[r.dimension_key].en }}</p>{% endif %}
 {% if r.justification %}<p class="rating-justification" dir="auto">{{ r.justification }}</p>{% endif %}
 {% endfor %}
 </div>
 
 <div class="rating-group">
-<h3>Needs</h3>
+<h3 dir="auto">{{ 'الاحتياجات' if is_ar else 'Needs' }}</h3>
 {% for r in profile.ratings if r.dimension_key.startswith('need_') %}
 <div class="rating"><span dir="auto">{{ r.dimension_label }}</span><strong>{{ r.rating }}</strong></div>
+{% if r.dimension_key in descriptions %}<p class="dimension-description" dir="auto">{{ descriptions[r.dimension_key].ar if is_ar else descriptions[r.dimension_key].en }}</p>{% endif %}
 {% if r.justification %}<p class="rating-justification" dir="auto">{{ r.justification }}</p>{% endif %}
 {% endfor %}
 </div>
+
+{% if messages %}
+<details class="conversation-toggle">
+  <summary>{{ 'عرض المحادثة' if is_ar else 'View conversation' }}</summary>
+  {% for m in messages %}
+  <div class="msg {{ 'assistant' if m.role == 'assistant' else 'user' }}" dir="auto">{{ m.content }}</div>
+  {% endfor %}
+</details>
+{% endif %}
 {% endif %}
 {% endblock %}

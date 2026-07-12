@@ -69,7 +69,9 @@ def invite(token):
     profile_id = db.get_latest_profile_id(person_label)
     if profile_id is not None:
         profile = db.get_profile_with_ratings(profile_id, person_label)
-        return render_template("result.html", profile=profile)
+        raw_messages = db.get_conversation_messages_for_profile(profile_id, person_label) or []
+        messages = [m for m in raw_messages if m["content"] != engine.SESSION_START_TOKEN]
+        return render_template("result.html", profile=profile, messages=messages)
 
     return redirect(url_for("start"))
 
@@ -120,7 +122,8 @@ def chat():
 
     if convo["status"] == "done":
         profile = db.get_profile_with_ratings(convo["profile_id"], convo["person_label"])
-        return render_template("result.html", profile=profile)
+        messages = [m for m in convo["messages"] if m["content"] != engine.SESSION_START_TOKEN]
+        return render_template("result.html", profile=profile, messages=messages)
 
     visible_messages = [m for m in convo["messages"] if m["content"] != engine.SESSION_START_TOKEN]
     return render_template("chat.html", messages=visible_messages)
