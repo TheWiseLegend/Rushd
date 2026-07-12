@@ -65,6 +65,12 @@ def invite(token):
         return render_template("invite_error.html"), 404
     session["person_label"] = person_label
     session.pop("conversation_session_id", None)
+
+    profile_id = db.get_latest_profile_id(person_label)
+    if profile_id is not None:
+        profile = db.get_profile_with_ratings(profile_id, person_label)
+        return render_template("result.html", profile=profile)
+
     return redirect(url_for("start"))
 
 

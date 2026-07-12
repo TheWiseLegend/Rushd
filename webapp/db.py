@@ -135,6 +135,21 @@ def set_profile_id(session_id: str, person_label: str, profile_id: int) -> None:
         conn.close()
 
 
+def get_latest_profile_id(person_label: str) -> int | None:
+    """Looks up an existing completed profile by person_label alone - used by
+    /invite, where a new browser/device has no session cookie yet to look up
+    a profile_id through."""
+    conn = get_conn()
+    try:
+        row = conn.execute(
+            "SELECT id FROM profiles WHERE person_label = ? ORDER BY id DESC LIMIT 1",
+            (person_label,),
+        ).fetchone()
+        return row["id"] if row else None
+    finally:
+        conn.close()
+
+
 def get_profile_with_ratings(profile_id: int, person_label: str) -> dict | None:
     """Scoped by person_label too, for the same reason conversation_sessions is -
     a profile_id from a session cookie should never let one person read another's profile."""
