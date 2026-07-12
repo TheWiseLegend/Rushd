@@ -88,8 +88,8 @@ a step ahead of its turn.
 | 1 | System prompt quality (no terminology leakage, interpretation over summary) | ✅ Done | Committed |
 | 2 | Personal info intake (age/gender on `/start`) | 🔄 In progress | Age/gender captured, stored, and reach the model from message 1 |
 | 3 | Loading state (disable Submit on click, inline "...") | ✅ Done | Pure HTML/CSS/minimal JS, no framework |
-| 4 | Rating justifications (`justification` field on `profile_ratings` + tool schema + result.html + rebuilt rubric) | 🔄 In progress | — |
-| 5 | Result page redesign (grouped ratings, dimension descriptions, conversation-history toggle) | ⬜ Not started | — |
+| 4 | Rating justifications (`justification` field on `profile_ratings` + tool schema + result.html + rebuilt rubric) | ✅ Done | — |
+| 5 | Result page redesign (grouped ratings, dimension descriptions, conversation-history toggle) | 🔄 In progress | — |
 | 6 | Theme coverage indicator (explored themes shown in chat UI, not a percentage bar) | ⬜ Not started | — |
 | 7 | Cost optimization (`send_turn` → claude-haiku, `run_extraction` stays on Sonnet, verify caching still active) | ⬜ Not started | — |
 
