@@ -52,6 +52,18 @@ To restore: stop the container (`docker compose down`), run
 `cp data/rushd.db.backup-<timestamp> data/rushd.db`, then start it again
 (`docker compose up -d`).
 
+### Sharing (ngrok)
+
+Not a project dependency — just how Amr shares the app with friends
+without deploying it anywhere public. See README.md for the full flow.
+
+```bash
+ngrok http 5000          # run alongside docker compose up -d, not instead of it
+```
+
+One-time setup (already done on this machine):
+`ngrok config add-authtoken <token>`.
+
 ## Build Status — Phase 3
 
 One step at a time. Confirm the done-condition before starting the next.
@@ -62,7 +74,7 @@ One step at a time. Confirm the done-condition before starting the next.
 | 2 | Assessment engine | ✅ Done | CLI produces a real 14-rating profile |
 | 3 | Web app (auth + chat UI) | ✅ Done | Full browser flow verified end-to-end; prompt caching live |
 | 4 | Save + view own results | ✅ Done | User hits their invite link on a new browser/device and sees their completed profile instead of starting over |
-| 5 | Deploy + back up | 🔄 **In progress** | Survives reboot; DB has a restore path |
+| 5 | Deploy + back up | ✅ Done | Survives reboot; DB has a restore path |
 
 **Comparison view (two profiles side-by-side): explicitly deferred. Do not
 scope, design, or ask about it. Amr will open that phase when ready.**
