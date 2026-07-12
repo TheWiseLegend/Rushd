@@ -17,3 +17,15 @@ These decisions are fixed for the project; don't re-litigate them in later steps
 - **Trivial invite-link/passcode auth**, not full user accounts.
 - **Docker deployment** on the owner's own infrastructure.
 - **Small scale**: 2-5 users total, used occasionally (every few months) — do not over-engineer for scale this project doesn't have.
+
+## Commands
+
+Set up once: copy `.env.example` to `.env` and fill in `ANTHROPIC_API_KEY`.
+
+1. `python3 assessment/build_rubric.py` — mines High/Medium/Low rating criteria per
+   dimension from `content/transcripts/` and caches them to `content/rubric.json`.
+   Run this once before the first assessment, and again any time the transcripts
+   change. `run_assessment.py` refuses to run extraction without this file — it
+   won't fall back to inventing its own thresholds.
+2. `python3 assessment/run_assessment.py` — runs the assessment conversation, then
+   extracts and saves a structured profile to `data/rushd.db`.
